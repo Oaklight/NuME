@@ -1,6 +1,8 @@
-import os, sys, traceback
+import os, sys
 from tinytag import TinyTag
 _DEBUG = True
+reserved = ['<', '>', ':', '\"', '\\', '/', '|', '?', '*']
+artist = set()
 
 def main():
     pathToMusic = input("Pls specify the full path to music folder:")
@@ -17,15 +19,15 @@ def main():
             if (tag.title is None) or (tag.artist is None):
                 propose = abnormal(filename)            
             else:
-                propose = '{} - {}'.format(tag.title, tag.artist.replace('/', '.'))
+                artist.add(str(tag.artist).title())
+                propose = sanityCheck('{} - {}'.format(tag.title, tag.artist))
         except:
                 propose = abnormal(filename)
         
         if propose != filename:
-            newPath = propose + fileExtension
-
+            newPath = os.path.join(pathToMusic, propose + fileExtension)
             if not _DEBUG:
-                os.rename(each, newPath, pathToMusic, pathToMusic)
+                os.rename(os.path.join(pathToMusic, each), newPath)
             else:
                 print(newPath)
 
@@ -35,17 +37,32 @@ def abnormal(filename):
         filename = temp if temp != filename else filename
         
         pre, post = filename.split(' - ')
-        propose = post + ' - ' + pre
-
-        switch = input('''
-        Choose  1. {}
-                2. {}
-                '''.format(filename, propose))
-        
-        if int(switch) == 1:
+        if pre in artist:
+            propose = post + ' - ' + pre
+        elif post in artist:
             propose = filename
+        else:
+            propose = post + ' - ' + pre
+            switch = input('''
+            Choose the correct one:  
+                1. {}
+                2. {}
+                '''.format(filename, propose)) 
+                    #1. post in artist; 2. pre in artist
+
+            if int(switch) == 1:
+                propose = filename
+                artist.add(post)
+            elif int(switch) == 2:
+                artist.add(pre)
+
     except:
-        propose = input("Unknown error! Pls check this filename: {}.".format(filename))
+        propose = input("Unknown error! Pls check this filename: {}: ".format(filename))
+    return propose
+
+def sanityCheck(propose):
+    for each in reserved:
+        propose = propose.replace(each, '.')
     return propose
 
 if __name__ == "__main__":
@@ -53,9 +70,6 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print('Interrupted')
-    except Exception:
-        traceback.print_exc(file=sys.stdout)
-    finally:
         try:
             sys.exit(0)
         except SystemExit:
