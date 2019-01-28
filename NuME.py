@@ -1,6 +1,6 @@
 import os, sys
 from tinytag import TinyTag
-_DEBUG = True
+_DEBUG = False
 reserved = ['<', '>', ':', '\"', '\\', '/', '|', '?', '*']
 artist = set()
 
@@ -29,12 +29,13 @@ def main():
             newPath = os.path.join(pathToMusic, propose + fileExtension)
             if not _DEBUG:
                 try:
-                    os.rename(os.path.join(pathToMusic, each), newPath)                    
+                    os.rename(os.path.join(pathToMusic, each), newPath)
                 except:
                     newPath = os.path.join(
                         pathToMusic, 
-                        propose.replace(' - ', '.2 - ') + fileExtension
+                        propose.replace(' - ', '2 - ') + fileExtension
                     )
+                    os.rename(os.path.join(pathToMusic, each), newPath)
             else:
                 print(newPath)
 
