@@ -14,6 +14,7 @@ def main():
 
         filename, fileExtension = os.path.splitext(each)
         eachPath = os.path.join(pathToMusic, each)
+        
         try:
             tag = TinyTag.get(eachPath)
             if (tag.title is None) or (tag.artist is None):
@@ -27,7 +28,13 @@ def main():
         if propose != filename:
             newPath = os.path.join(pathToMusic, propose + fileExtension)
             if not _DEBUG:
-                os.rename(os.path.join(pathToMusic, each), newPath)
+                try:
+                    os.rename(os.path.join(pathToMusic, each), newPath)                    
+                except:
+                    newPath = os.path.join(
+                        pathToMusic, 
+                        propose.replace(' - ', '.2 - ') + fileExtension
+                    )
             else:
                 print(newPath)
 

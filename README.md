@@ -1,2 +1,2 @@
 # NuME
-Name your Multi-media Elegantly 
+Name your Music Elegantly 
