@@ -1,10 +1,13 @@
 # NuME
-Name your Music Elegantly 
+
+Name your Music Elegantly
 
 Rearrange your music name in "Title - Artist" fashion, with manual check for non-tagged music files.
 
-### Feature incoming:
+## Incoming Features
+
 - [ ] Naming scheme selection
-- [ ] Fix missing tags automatically
-- [ ] Parsing multiple contributing artists in the given name
+- [x] Fix missing tags automatically
+- [ ] Parsing multiple contributing artists and cross referencing
+- [ ] Adding argument parsing for _DEBUG and _VERBOSE
 - [ ] Convert Xiami .xm and Netease .ncm to .mp3
