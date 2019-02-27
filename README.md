@@ -4,6 +4,11 @@ Name your Music Elegantly
 
 Rename your music in a uniform fashion and fix missing tags automatically
 
+Run with ```python NuME.py``` to make actual changes. For debug or testing purpose, run with ```python -O NuME.py``` 
+
+## Dependencies:
+* [mutagen](https://github.com/quodlibet/mutagen)
+
 ## Incoming Features
 
 - [x] Fix missing tags automatically
