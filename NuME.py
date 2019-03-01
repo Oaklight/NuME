@@ -3,10 +3,6 @@ import os, sys
 from mutagen import File
 from mutagen.easyid3 import EasyID3
 
-if __debug__:
-    print("Test OFF, file WILL be changed, unless run with '-O'")
-else:
-    print("Test ON, no actual file modification")
 # _VERBOSE = True
 _reserved = ["<", ">", ":", '"', "\\", "/", "|", "?", "*"]
 _artists = set()
@@ -99,6 +95,7 @@ def abnormal(filename, tag=None):
 def getTag(filePath):
     try:
         tag = EasyID3(filePath)
+        tag.save(filePath)
         # print('tag read')
     except:
         # print('tag missing')
@@ -136,6 +133,10 @@ def sanityCheck(propose):
 
 if __name__ == "__main__":
     try:
+        if __debug__:
+            print("Test OFF, file WILL be changed, unless run with '-O'")
+        else:
+            print("Test ON, no actual file modification")
         main()
     except (KeyboardInterrupt, SystemExit):
         print("Interrupted")
